@@ -15,6 +15,17 @@ function Login() {
   const loginToApp = (e) => {
     e.preventDefault();
 
+    auth.signInWithEmailAndPassword(email, password).then((userAuth) => {
+      // Use the login state from userSlice(redux)
+      dispatch(
+        login({
+          email: userAuth.user.email,
+          uid: userAuth.user.uid,
+          displayName: userAuth.user.displayName
+        })
+      )
+    }).catch(error => console.log(error))
+
   };
 
   const register = () => {

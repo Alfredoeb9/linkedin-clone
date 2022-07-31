@@ -5,8 +5,11 @@ import { Subscriptions, Image, Create, EventNote, CalendarViewDay } from '@mui/i
 import Post from './Post';
 import { db } from './firebase';
 import firebase from "firebase";
+import { useSelector } from 'react-redux';
+import { selectUser } from './features/counter/userSlice';
 
 function Feed() {
+  const user = useSelector(selectUser)
   const [input, setInput] = useState("");
   const [posts, setPosts] = useState([]);
 
@@ -27,10 +30,10 @@ function Feed() {
     e.preventDefault();
 
     db.collection('posts').add({
-      name: 'Alfredo Barillas',
-      description: 'this is a test',
+      name: user.displayName,
+      description: user.email,
       message: input,
-      photoUrl: "",
+      photoUrl: user.photoUrl || "",
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
 
